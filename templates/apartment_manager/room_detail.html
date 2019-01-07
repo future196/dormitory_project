@@ -1,0 +1,116 @@
+{% extends "apartment_manager/base.html" %}
+{% block title %}学生寝室信息管理{% endblock title %}
+{% block main %}
+<!--<script src="/static/js/room_detail.html/"></script>-->
+
+    <div class="panel panel-warning" style="background:	#F2F2F2;margin-top:30px;">
+        <div class="panel-heading">{{ room_info.name }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可容纳：{{ room_info.capacity }}人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已入住：{{ num }}人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label id="error" style="color:red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><a id="add_text" href="javascript:;" style="color:orange" onclick="add()">添加入住</a></label></div>
+        <div class="panel-body" style="margin-left:50px;color:orange">
+            <table width="600px" style="table-layout:fixed;">
+                <tr>
+                    <th style="text-align:center">学号</th>
+                    <th style="text-align:center">姓名</th>
+                    <th style="text-align:center">性别</th>
+                    <th style="text-align:center">班别</th>
+                    <th style="text-align:center">--</th>
+                </tr>
+                <form action="/apartment/room/checkin/{{ room_info.name }}/" method="post" onsubmit="return check_error()">
+                {% csrf_token %}
+                    <tr id="add" style="display:none;">
+                    <td style="text-align:center">
+                        <input type="number" id="student_id" name="student_id" required class="form-control" style="border:none;" onchange="find_student()"><p id="student_error" style="color:red;"></p>
+                    </td>
+                    <td id="student_name" style="text-align:center">--</td>
+                    <td id="student_sex" style="text-align:center">--</td>
+                    <td id="student_class" style="text-align:center">--</td>
+                    <th style="text-align:center">
+                        <input style="background:orange;border:0" type="submit" class="btn btn-primary" value="入住">
+                    </th>
+                    </tr>
+                </form>
+                {% for checkin in checkins %}
+                <tr>
+                    <td style="text-align:center">{{ checkin.student.id }}</td>
+                    <td style="text-align:center">{{ checkin.student.name }}</td>
+                    <td style="text-align:center">{{ checkin.student.sex }}</td>
+                    <td style="text-align:center">{{ checkin.student.class_grade }}</td>
+                    <th style="text-align:center">
+                        <a href="/apartment/room/remove/{{ checkin.id }}/{{ checkin.room.name }}/" style="color:orange;">搬出</a>
+                    </th>
+                </tr>
+
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+<script>
+function add(){
+    var obj = document.getElementById("add");
+    var obj2 = document.getElementById("add_text");
+    if({{ room_info.capacity }} == 0 ){
+        document.getElementById("error").innerHTML = "入住人数已满！"
+    }else{
+        if(obj.style.display == "none"){
+        obj.style.display = ""
+        obj2.innerHTML = "取消入住";
+    }
+    else{
+        obj.style.display = "none";
+        obj2.innerHTML = "添加入住";
+    }
+    }
+
+}
+
+
+function find_student(){
+        var xhr;
+        if(window.XMLHttpRequest){
+        xhr = new XMLHttpRequest();
+        }
+        value = document.getElementById("student_id").value;
+        url ="/apartment/room/find_student/" + value;
+        xhr.open("GET",url,true);
+
+        xhr.onreadystatechange=function(){
+
+        if(xhr.readyState == 4 && xhr.status == 200){
+            var data = xhr.responseText;
+            data = JSON.parse(data);
+            var obj = document.getElementById("student_error");
+            if(data.status == 0){
+                obj.innerHTML = "已入住其他宿舍！不可重复入住";
+                document.getElementById("student_id").innerHTML = data.id;
+                document.getElementById("student_name").innerHTML = data.name;
+                document.getElementById("student_sex").innerHTML = data.sex;
+                document.getElementById("student_class").innerHTML = data.class;
+            }
+            else if(data.status == 1){
+                obj.innerHTML = "";
+                document.getElementById("student_name").innerHTML = data.name;
+                document.getElementById("student_sex").innerHTML = data.sex;
+                document.getElementById("student_class").innerHTML = data.class;
+            }
+            else if(data.status == 2){
+                obj.innerHTML = "学生不存在";
+                document.getElementById("student_name").innerHTML = "";
+                document.getElementById("student_sex").innerHTML = "--";
+                document.getElementById("student_class").innerHTML = "--";
+            }
+            }
+        }
+        xhr.send();
+}
+
+function check_error(){
+    var obj = document.getElementById("student_error");
+    if(obj.innerHTML == ""){
+        return true;
+    }
+    else{
+        return false;
+}
+}
+</script>
+{% endblock main %}

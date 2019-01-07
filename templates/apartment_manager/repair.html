@@ -1,0 +1,51 @@
+{% extends "apartment_manager/base.html" %}
+{% block title %}宿舍报修信息管理{% endblock title %}
+{% block main %}
+<div style="margin-top:30px">
+<table class="table table-striped" style="table-layout:fixed;margin:auto;margin-bottom:100px;">
+    <tr class="" style="background:orange;color:white;">
+        <th class="" colspan="7" >所有学生报修信息
+        <th style="text-align:center;" colspan="2"><a href="/apartment/repair/2/" style="color:white;">{{ wait }}&nbsp;个报修未处理</a></th>
+    </tr>
+    <tr class="" style="text-align:center">
+        <td class="active">寝室</td>
+        <td class="active">报修类型</td>
+        <td class="active">报修设备</td>
+        <td class="active">联系方式</td>
+        <td class="active">报修时间</td>
+        <td class="active">维修状态</td>
+        <td class="active" colspan="2">备注信息</td>
+        <td class="active" >反馈 / 处理</td>
+    </tr>
+
+{% if repairs.count == 0 %}
+        <tr class="" style="text-align:center;background:white;">
+            <td colspan="7"><p style="font-size:1.5em;">空空如也</p></td>
+        </tr>
+{% else %}
+{% for repair in repairs %}
+    <tr class="" style="text-align:center">
+        <td class="active">{{ repair.room.name }}</td>
+        <td class="active">{{ repair.type }}</td>
+        <td class="active">{{ repair.name }}</td>
+        <td class="active">{{ repair.contact }}</td>
+        <td class="active">{{ repair.date }}</td>
+        <td class="active">{{ repair.status }}</td>
+        <td class="active" colspan="2">{{ repair.content }}</td>
+        <td class="active">
+            {% if repair.status == "未处理" %}
+            <button class="btn btn-primary" style="background:orange;border:0" onclick="location.href='/apartment/repair_finish/{{ repair.id }}/{{ status }}'">去处理</button>
+            {% else %}
+            {% if repair.reply != "" %}
+            <p style="color:red">反馈：{{ repair.reply }}</p>
+            {% else %}
+            <p>{{ repair.wait }}</p>
+            {% endif %}
+            {% endif %}</td>
+    </tr>
+    <!--<button type="button" style="background:orange;border:0" class="btn btn-primary" onclick="window.location.href='/apartment/repair/finish/{{ repair.id }}/">我已处理</button>-->
+{% endfor %}
+    {% endif %}
+        </table>
+    </div>
+{% endblock main %}

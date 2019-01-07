@@ -1,0 +1,38 @@
+{% extends "info_manager/base.html" %}
+{% block title %}学生信息管理 - 修改{% endblock title %}
+{% block main %}
+    <div class="panel panel-warning" style="background:	#F2F2F2;margin-top:30px;">
+        <div class="panel-heading">修改信息<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" style="color:orange" onclick="if(confirm('确定删除吗？')==true){window.location.href='/info/building/delete/{{ dormitory.name }}/';}">删除</a></label></div>
+        <div class="panel-body" style="margin-left:50px;color:orange">
+            <form action="/info/manager/change/{{ manager_info.id }}/" method="post">
+                {% csrf_token %}
+                  <div class="form-group">
+                        <b>工号：{{ manager_info.id }}</b>
+                  </div>
+                  <div class="form-group">
+                        <b>姓名：{{ manager_info.name }}</b>
+                  </div>
+                <div>
+                    <label>在管理的宿舍楼</label>
+                </div>
+                <div class="form-group">
+                  <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span id="building_show">{{ manager_info.building.name }}</span><span style="color:orange" class="caret"></span>
+                  </button>
+                      <input type="text" id="building" name="building" value="{{ manager_info.building.name }}" style="display:none">
+                  <ul class="dropdown-menu">
+                      {% for building in buildings %}
+                        <li><a href="javascript:;" onclick="document.getElementById('building_show').innerHTML=this.innerHTML;document.getElementById('building').value=this.innerHTML;">{{ building.name }}</a></li>
+                      {% endfor %}
+                  </ul>
+                </div>
+                </div>
+                  <div class="form-group">
+                        <input type="submit" style="background:orange;border:0" class="btn btn-primary" value="保存">
+                  </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock main %}

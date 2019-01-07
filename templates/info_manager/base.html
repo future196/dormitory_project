@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}宿舍管理中心{% endblock title %}
+{% block body %}
+
+<ul class="nav nav-tabs" style="background:orange">
+  <li {% if home == 0 %} class="active" {% endif %} style="margin-left:100px;"><a href="/info/index/" {% if home == 0 %}  style="color:orange" {% else %} style="color:white;background:orange"  onmouseover="this.style.background='white';this.style.color='orange';" onmouseleave="this.style.background='orange';this.style.color='white';"{% endif %}>首页</a></li>
+  <li {% if building == 0 %} class="active" {% endif %}><a href="/info/building/" {% if building == 0 %}  style="color:orange" {% else %} style="color:white;background:orange" onmouseover="this.style.background='white';this.style.color='orange';" onmouseleave="this.style.background='orange';this.style.color='white';"{% endif %}>宿舍楼信息管理</a></li>
+  <li {% if student == 0 %} class="active" {% endif %}><a href="/info/student/A1/0/0/" {% if student == 0 %}  style="color:orange" {% else %} style="color:white;background:orange" onmouseover="this.style.background='white';this.style.color='orange';" onmouseleave="this.style.background='orange';this.style.color='white';"{% endif %}>学生信息管理</a></li>
+  <li {% if manager == 0 %} class="active" {% endif %}><a href="/info/manager/" {% if manager == 0 %}  style="color:orange" {% else %} style="color:white;background:orange" onmouseover="this.style.background='white';this.style.color='orange';" onmouseleave="this.style.background='orange';this.style.color='white';"{% endif %}>宿管信息管理</a></li>
+  <li {% if modify_password == 0 %} class="active" {% endif %}><a href="/info/modify_password/" {% if modify_password == 0 %}  style="color:orange" {% else %} style="color:white;background:orange" onmouseover="this.style.background='white';this.style.color='orange';" onmouseleave="this.style.background='orange';this.style.color='white';"{% endif %}>修改密码</a></li>
+
+  <div role="presentation" style="float:right;margin:10px 100px 10px 0"><a style="color:white" href="/user/logout/">注销</a></div>
+  <div role="presentation" style="float:right;margin:10px 20px 10px 0"><a style="color:white" href="javascript:;">欢迎您：{{ request.session.user_name}}</a></div>
+</ul>
+<div style="margin:auto;width:1000px;height:100%">
+  {% block main %}{% endblock main %}
+</div>
+
+{% endblock body %}

@@ -1,0 +1,62 @@
+{% extends "info_manager/base.html" %}
+{% block title %}宿舍楼信息管理{% endblock title %}
+{% block main %}
+<script src="/static/js/manager.js"></script>
+ <div style="margin-top:30px">
+    <table class="table table-striped" style="table-layout:fixed;margin:auto;" >
+        <tr class="" style="background:orange;color:white;">
+        <th colspan="4">所有宿舍管理员</th>
+        <th class="" style="text-align:center"><a href="javascript:;" style="color:white;" id="add_text" onclick="add()">添加</a></th>
+    </tr>
+    <tr class="" style="text-align:center">
+        <td class="active">工号</td>
+        <td class="active">姓名</td>
+        <td class="active">性别</td>
+        <td class="active">管理的宿舍楼</td>
+        <td class="active">...</td>
+    </tr>
+
+         <tr id="add" style="text-align:center;display:none;">
+            <form action="/info/manager/add/" method="post" onsubmit="return check_error()">
+                {% csrf_token %}
+            <td class="active"><input type="number" id="manager_id" name="manager_id" required class="form-control" style="border:none;" onchange="find_manager()"><p id="manager_error" style="color:red;"></p></td>
+            <td class="active"><p id="manager_name">--</p></td>
+            <td class="active"><p id="manager_sex">--</p></td>
+            <td class="active">
+                 <div class="form-group">
+                  <div class="btn-group">
+                  <button style="border:0" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span id="building_show"></span><span style="color:orange" class="caret"></span>
+                      <input type="text" id="building" required name="building" value="" style="display:none">
+                  </button>
+                  <ul class="dropdown-menu">
+                      {% for building in buildings %}
+                        <li><a href="javascript:;" onclick="document.getElementById('building_show').innerHTML=this.innerHTML;document.getElementById('building').value=this.innerHTML;">{{ building.name }}</a></li>
+                      {% endfor %}
+                  </ul>
+                </div>
+                </div>
+            </td>
+            <td class="active"><input style="background:orange;border:0" type="submit" required class="btn btn-primary" value="保存"></td>
+            </form>
+        </tr>
+
+
+{% if manager_info.count == 0 %}
+        <tr class="" style="text-align:center;background:white;">
+            <td colspan="7"><p style="font-size:1.5em;">空空如也</p></td>
+        </tr>
+{% else %}
+{% for manage in manager_info %}
+    <tr class="" style="text-align:center">
+        <td class="active">{{ manage.id }}</td>
+        <td class="active">{{ manage.name }}</td>
+        <td class="active">{{ manage.sex }}</td>
+        <td class="active">{{ manage.building.name }}</td>
+        <td class="active"><a href="/info/manager/modify/{{ manage.id }}/" style="color:black;">修改</a></td>
+    </tr>
+{% endfor %}
+        {% endif %}
+        </table>
+    </div>
+{% endblock main %}

@@ -1,0 +1,79 @@
+{% extends "apartment_manager/base.html" %}
+{% block title %}物品出入信息管理{% endblock title %}
+{% block main %}
+  <div style="margin-top:30px">
+    <table class="table table-striped" style="table-layout:fixed;margin:auto;margin-bottom:100px;" >
+        <tr class="" style="background:orange;color:white;">
+            <th class="" colspan="5" >物品出入&nbsp;
+                <div class="btn-group">
+              <button type="button" style="border:1px" class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {% if type == "0" %}全部{% elif type == "1" %}出{% else %}入{% endif %}<span class="caret"></span>
+              </button>
+
+              <ul class="dropdown-menu" style="background:#FFFFE0">
+                  <li><a href="/apartment/entry_exit/0_{{ year }}_{{ month }}/">全部</a></li>
+                  <li><a href="/apartment/entry_exit/1_{{ year }}_{{ month }}/">出</a></li>
+                  <li><a href="/apartment/entry_exit/2_{{ year }}_{{ month }}/">入</a></li>
+              </ul>
+            </div>
+              <div class="btn-group">
+              <button type="button" style="border:1px" class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {% if year == "0" %}所有年份{% else %}{{ year }}年{% endif %}<span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" style="background:#FFFFE0">
+                  <li><a href="/apartment/entry_exit/{{ type }}_2018_{{ month }}/">2018年</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_2017_{{ month }}/">2017年</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_2016_{{ month }}/">2016年</a></li>
+
+
+              </ul>
+            </div>
+            <div class="btn-group">
+              <button type="button" style="border:1px" class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {% if month == "0" %}所有月份{% else %}{{ month }}月份{% endif %}<span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" style="background:#FFFFE0">
+                  <li><a href="/apartment/entry_exit/{{ type }}_{{ year }}_0/">所有月份</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_{{ year }}_1/">1月份</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_{{ year }}_2/">2月份</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_{{ year }}_3/">3月份</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_{{ year }}_4/">4月份</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_{{ year }}_5/">5月份</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_{{ year }}_6/">6月份</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_{{ year }}_7/">7月份</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_{{ year }}_8/">8月份</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_{{ year }}_9/">9月份</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_{{ year }}_10/">10月份</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_{{ year }}_11/">11月份</a></li>
+                  <li><a href="/apartment/entry_exit/{{ type }}_{{ year }}_12/">12月份</a></li>
+              </ul>
+            </div>
+        </th>
+
+        <th style="text-align:center;">
+            <a href="/apartment/entry_exit/add/" style="color:white;">新增记录</a>
+        </th>
+    </tr>
+    <tr class="" style="text-align:center">
+        <td class="active">学号</td>
+        <td class="active">姓名</td>
+        <td class="active">性别</td>
+        <td class="active">物品</td>
+        <td class="active">时间</td>
+        <td class="active">出 \ 入</td>
+    </tr>
+
+
+{% for entry_exit in entry_exits %}
+    <tr class="" style="text-align:center">
+        <td class="active">{{ entry_exit.student.id }}</td>
+        <td class="active">{{ entry_exit.student.name }}</td>
+        <td class="active">{{ entry_exit.student.sex }}</td>
+        <td class="active">{{ entry_exit.name }}</td>
+        <td class="active">{{ entry_exit.date }}</td>
+        <td class="active">{{ entry_exit.status }}</td>
+    </tr>
+{% endfor %}
+        </table>
+    </div>
+{% endblock main %}

@@ -1,0 +1,46 @@
+{% extends "info_manager/base.html" %}
+{% block title %}学生信息管理 - 修改{% endblock title %}
+{% block main %}
+    <div class="panel panel-warning" style="background:	#F2F2F2;margin-top:30px;">
+        <div class="panel-heading">修改信息<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" style="color:orange" onclick="if(confirm('确定删除吗？')==true){window.location.href='/info/building/delete/{{ dormitory.name }}/';}">删除</a></label></div>
+        <div class="panel-body" style="margin-left:50px;color:orange">
+            <form action="/info/student/change/{{ checkin.id }}/" method="post">
+                {% csrf_token %}
+                  <div class="form-group">
+                        <b>学号：{{ checkin.student.id }}</b>
+                  </div>
+                  <div class="form-group">
+                        <b>姓名：{{ checkin.student.name }}</b>
+                  </div>
+                  <div class="form-group">
+                        <label>寝室{% if change_status == 'full' %}<label style="color:red">&nbsp;&nbsp;人数已满！请更换！</label>{% elif change_status == "on_exist" %}<label style="color:red">&nbsp;&nbsp;此宿舍不存在！请更换！</label>{% endif %}</label>
+                        <input type="text" class="form-control" name="room" {% if change_status %} value="{{ room }}"{% else %} value="{{ checkin.room.name }}"{% endif %} style="width:400px;">
+                        <input type="text" name="before_room" value="{{ checkin.room.name }}" style="display:none;">
+                  </div>
+                  <div class="form-group">
+                        <label>入住日期</label>
+                        <input type="date" class="form-control" name="date" value="{{ date }}" style="width:400px;">
+                  </div>
+                <div>
+                    <label>在住状态</label>
+                </div>
+                <div class="form-group">
+                  <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {% if change_status %}<span id="is">{{ status }}</span>{% else %}<span id="is">{{ checkin.status }}</span>{% endif %}<span style="color:orange" class="caret"></span>
+                  </button>
+                      <input type="text" id="status" name="status" {% if change_status %}value="{{ status }}"{% else %} value="{{ checkin.status }}"{% endif %} style="display:none">
+                  <ul class="dropdown-menu">
+                        <li><a href="javascript:;" onclick="document.getElementById('is').innerHTML=this.innerHTML;document.getElementById('status').value=this.innerHTML;">是</a></li>
+                        <li><a href="javascript:;" onclick="document.getElementById('is').innerHTML=this.innerHTML;document.getElementById('status').value=this.innerHTML;">否</a></li>
+                  </ul>
+                </div>
+                </div>
+                  <div class="form-group">
+                        <input type="submit" style="background:orange;border:0" class="btn btn-primary" value="保存">
+                  </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock main %}

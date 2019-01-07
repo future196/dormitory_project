@@ -1,0 +1,96 @@
+{% extends "student/base.html" %}
+{% block title %}网上报修{% endblock title %}
+{% block main %}
+        <div class="panel panel-warning" style="background:	#F2F2F2;margin-top:30px;">
+        <div class="panel-heading">网上报修</div>
+        <div class="panel-body" style="margin-left:50px;color:orange">
+            <form action="/student/repair/add/{{ room }}/" method="post">
+                {% csrf_token %}
+                <input type="text" {% if status == 1 %} value="{{ dormitory.before_name }}" {% else %} value="{{ dormitory.name }}" {% endif %} name="before_name" style="display:none">
+                  <div class="form-group">
+                      <label style="">报修寝室：{{ room }}</label>
+                  </div>
+                  <div class="form-group">
+                        <label>报修类型：</label>
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <span id="type_show"></span><span style="color:orange" class="caret"></span>
+                              </button>
+                                  <input type="text" id="type" name="type" value="" style="display:none">
+                              <ul class="dropdown-menu">
+                                    <li><a href="javascript:;" onclick="document.getElementById('type_show').innerHTML=this.innerHTML;document.getElementById('type').value='用水类'; choice('water')">用水类</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('type_show').innerHTML=this.innerHTML;document.getElementById('type').value='电器类'; choice('electric')">电器类</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('type_show').innerHTML=this.innerHTML;document.getElementById('type').value='门窗类'; choice('door')">门窗类</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('type_show').innerHTML=this.innerHTML;document.getElementById('type').value='家具类'; choice('furniture')">家具类</a></li>
+                              </ul>
+                            </div>
+                  </div>
+                  <div class="form-group">
+                        <label>报修设备：</label>
+                              <div class="btn-group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <span id="name_show"></span><span style="color:orange" class="caret"></span>
+                              </button>
+                                  <input type="text" id="name" name="name" value="" style="display:none">
+                              <ul id="water" class="dropdown-menu" style="display:none">
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='卫生间水龙头';">卫生间水龙头</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='洗手台水龙头';">洗手台水龙头</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='冲凉房水龙头';">冲凉房水龙头</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='阳台水龙头';">阳台水龙头</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='其他请备注';">其他请备注</a></li>
+
+                              </ul>
+                              <ul id="electric" class="dropdown-menu" style="display:none">
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='风扇';">风扇</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='空调';">空调</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='卫生间电灯';">卫生间电灯</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='冲凉房电灯';">冲凉房电灯</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='阳台电灯';">阳台电灯</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='室内电灯';">室内电灯</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='直饮水机';">直饮水机</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='其他请备注';">其他请备注</a></li>
+
+
+
+                              </ul>
+                              <ul id="door" class="dropdown-menu" style="display:none">
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='窗';">窗</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='外门';">外门</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='内门';">内门</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='卫生间门';">卫生间门</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='冲凉房门';">冲凉房门</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='其他请备注';">其他请备注</a></li>
+
+                              </ul>
+                              <ul id="furniture" class="dropdown-menu" style="display:none">
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='椅子';">椅子</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='桌子';">桌子</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='床';">床</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='柜子';">柜子</a></li>
+                                    <li><a href="javascript:;" onclick="document.getElementById('name_show').innerHTML=this.innerHTML;document.getElementById('name').value='其他请备注';">其他请备注</a></li>
+
+
+                              </ul>
+                            </div>
+                  </div>
+                <div class="form-group">
+                    <label>联系方式</label>
+                    <input type="number" maxlength="11" class="form-control" name="contact" style="width:300px;">
+                </div>
+                  <div class="form-group">
+                        <label>备注信息</label>
+                      <textarea maxlength="20" placeholder="不能超过20个字数" class="form-control" name="content"  style="width:400px;"></textarea>
+                  </div>
+                  <div class="form-group">
+                        <input type="submit" style="background:orange;border:0" class="btn btn-primary" value="立即报修">
+                  </div>
+            </form>
+        </div>
+    </div>
+<script>
+    function choice(type){
+        document.getElementById(type).style.display = "";
+    }
+</script>
+
+{% endblock main %}

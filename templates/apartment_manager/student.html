@@ -1,0 +1,70 @@
+{% extends "apartment_manager/base.html" %}
+{% block title %}学生信息管理{% endblock title %}
+{% block main %}
+<script src="/static/js/student.js"></script>
+
+    <div style="margin-top:30px">
+    <table class="table table-striped" style="table-layout:fixed;margin:auto;margin-bottom:100px;" >
+        <tr class="" style="background:orange;color:white;">
+            <th class="" colspan="5" >{{ string }}栋&nbsp;
+                <div class="btn-group">
+              <button type="button" style="border:1px" class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {% if floor == 0 %}所有楼层{% else %}{{ floor }}楼{% endif %}<span class="caret"></span>
+              </button>
+
+              <ul class="dropdown-menu" style="background:#FFFFE0">
+                <li><a href="/apartment/student/0/{{ num }}/search">所有楼层</a></li>
+                  {% for i in building_height %}
+                <li><a href="/apartment/student/{{ i }}/{{ num }}/search">{{ i }} 楼</a></li>
+                  {% endfor %}
+              </ul>
+            </div>
+
+              <div class="btn-group">
+              <button type="button" style="border:1px" class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   {% if num == 0 %}所有{% else %}{% if floor == 0 %}*{% else %}{{ floor }}{% endif %}{% if num < 10 %}0{% endif %}{{ num }}{% endif %}寝室<span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" style="background:#FFFFE0;overflow:scroll;height:400px;">
+                <li><a href="/apartment/student/{{ floor }}/0/search">所有寝室</a></li>
+                  {% for i in building_width %}
+                <li><a href="/apartment/student/{{ floor }}/{{ i }}/search">{{ string }}{% if floor == 0 %}*{% else %}{{floor}}{% endif %}{{ i }} 寝室</a></li>
+                  {% endfor %}
+              </ul>
+
+            </div>
+
+        </th>
+            <th class="" colspan="2" >
+                <input style="color:black" type="number" maxlength="10" required onchange="document.getElementById('search_content').href = '/apartment/student/0/0/' + this.value"><a id="search_content" href="" style="color:white;margin-left:5px">学号搜索</a>
+            </th>
+    </tr>
+    <tr class="" style="text-align:center">
+        <td class="active">学号</td>
+        <td class="active">寝室</td>
+        <td class="active">姓名</td>
+        <td class="active">性别</td>
+        <td class="active">班级</td>
+        <td class="active">入住日期</td>
+        <td class="active">在住状态</td>
+    </tr>
+
+{% if checkins.count == 0 %}
+        <tr class="" style="text-align:center;background:white;">
+            <td colspan="7"><p style="font-size:1.5em;">空空如也</p></td>
+        </tr>
+{% else %}
+{% for checkin in checkins %}
+    <tr class="" style="text-align:center">
+        <td class="active">{{checkins.count}}{{ checkin.student.id }}</td>
+        <td class="active">{{ checkin.room.name }}</td>
+        <td class="active">{{ checkin.student.name }}</td>
+        <td class="active">{{ checkin.student.sex }}</td>
+        <td class="active">{{ checkin.student.class_grade }}</td>
+        <td class="active">{{ checkin.date }}</td>
+        <td class="active">{{ checkin.status }}</td>
+    </tr>
+{% endfor %}
+{% endif %}
+        </table>
+    </div>
+{% endblock main %}

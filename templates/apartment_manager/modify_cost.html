@@ -1,0 +1,55 @@
+{% extends "apartment_manager/base.html" %}
+{% block title %}水电费管理{% endblock title %}
+{% block main %}
+    <div class="panel panel-warning" style="background:	#F2F2F2;margin-top:30px;">
+        <div class="panel-heading">修改信息</div>
+        <div class="panel-body" style="margin-left:50px;color:orange">
+            <form action="/apartment/cost/change/{{ cost_info.id }}/{{ type }}_{{ year }}_{{ month }}/" method="post">
+                {% csrf_token %}
+                  <div class="form-group">
+                        <b>寝室：{{ cost_info.room.name }}</b>
+                  </div>
+                  <div class="form-group">
+                        <b>年月份：{{ cost_info.date }}</b>
+                  </div>
+                  <div class="form-group">
+                        <b>水费金额：{{ cost_info.water }}</b>
+                  </div>
+                  <div class="form-group">
+                        <b>电费金额：{{ cost_info.electric }}</b>
+                  </div>
+
+                <label>水费缴纳状态</label>
+                <div class="form-group">
+                  <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span id="water_status_show">{{ cost_info.water_status }}</span><span style="color:orange" class="caret"></span>
+                  </button>
+                        <input type="text" id="water_status" name="water_status" value="{{ cost_info.water_status }}" style="display:none">
+                  <ul class="dropdown-menu">
+                        <li><a href="javascript:;" onclick="document.getElementById('water_status_show').innerHTML=this.innerHTML;document.getElementById('water_status').value=this.innerHTML;">未缴纳</a></li>
+                        <li><a href="javascript:;" onclick="document.getElementById('water_status_show').innerHTML=this.innerHTML;document.getElementById('water_status').value=this.innerHTML;">已缴纳</a></li>
+                  </ul>
+                </div>
+                </div>
+
+                <label>电费缴纳状态</label>
+                <div class="form-group">
+                  <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span id="electric_status_show">{{ cost_info.electric_status }}</span><span style="color:orange" class="caret"></span>
+                  </button>
+                        <input type="text" id="electric_status" name="electric_status" value="{{ cost_info.electric_status }}" style="display:none">
+                  <ul class="dropdown-menu">
+                        <li><a href="javascript:;" onclick="document.getElementById('electric_status_show').innerHTML=this.innerHTML;document.getElementById('electric_status').value=this.innerHTML;">未缴纳</a></li>
+                        <li><a href="javascript:;" onclick="document.getElementById('electric_status_show').innerHTML=this.innerHTML;document.getElementById('electric_status').value=this.innerHTML;">已缴纳</a></li>
+                  </ul>
+                </div>
+                </div>
+                  <div class="form-group">
+                        <input type="submit" style="background:orange;border:0" class="btn btn-primary" value="保存">
+                  </div>
+            </form>
+        </div>
+    </div>
+{% endblock main %}

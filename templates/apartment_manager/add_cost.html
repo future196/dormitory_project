@@ -1,0 +1,74 @@
+{% extends "apartment_manager/base.html" %}
+{% block title %}水电费管理{% endblock title %}
+{% block main %}
+    <div class="panel panel-warning" style="background:	#F2F2F2;margin-top:30px;">
+        <div class="panel-heading">新增水电费</div>
+        <div class="panel-body" style="margin-left:50px;color:orange">
+            <form action="/apartment/cost/add/" method="post">
+                {% csrf_token %}
+                  <div class="form-group">
+                        <label>寝室</label><br>{{ building_name }}栋<br>
+                        <div class="btn-group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <span id="floor_show">楼层</span><span style="color:orange" class="caret"></span>
+                              </button>
+                                    <input type="text" required id="floor" name="floor" value="" style="display:none">
+                              <ul class="dropdown-menu">
+                                  {% for i in height %}
+                                    <li><a href="javascript:;" onclick="document.getElementById('floor_show').innerHTML=this.innerHTML;document.getElementById('floor').value=this.innerHTML;">{{ i }}楼</a></li>
+                                  {% endfor %}
+                              </ul>
+                            </div>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span id="room_show">寝室</span><span style="color:orange" class="caret"></span>
+                      </button>
+                            <input type="text" required id="room" name="room" value="" style="display:none">
+                      <ul class="dropdown-menu" style="overflow:scroll;height:400px;">
+                          {% for i in width %}
+                            <li><a href="javascript:;" onclick="document.getElementById('room_show').innerHTML=this.innerHTML;document.getElementById('room').value=this.innerHTML;">{{ building_name }}*{{ i }}寝室</a></li>
+                          {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                      <label>年月份</label><br>
+                                     <div class="form-group">
+                                  <div class="btn-group">
+                                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <span id="month_show">月份</span><span style="color:orange" class="caret"></span>
+                                  </button>
+                                        <input type="text" id="month" required name="month" value="" style="display:none">
+                                  <ul class="dropdown-menu">
+                                        <li><a href="javascript:;" onclick="document.getElementById('month_show').innerHTML=this.innerHTML;document.getElementById('month').value=this.innerHTML;">1月份</a></li>
+                                        <li><a href="javascript:;" onclick="document.getElementById('month_show').innerHTML=this.innerHTML;document.getElementById('month').value=this.innerHTML;">2月份</a></li>
+                                        <li><a href="javascript:;" onclick="document.getElementById('month_show').innerHTML=this.innerHTML;document.getElementById('month').value=this.innerHTML;">3月份</a></li>
+                                        <li><a href="javascript:;" onclick="document.getElementById('month_show').innerHTML=this.innerHTML;document.getElementById('month').value=this.innerHTML;">4月份</a></li>
+                                        <li><a href="javascript:;" onclick="document.getElementById('month_show').innerHTML=this.innerHTML;document.getElementById('month').value=this.innerHTML;">5月份</a></li>
+                                        <li><a href="javascript:;" onclick="document.getElementById('month_show').innerHTML=this.innerHTML;document.getElementById('month').value=this.innerHTML;">6月份</a></li>
+                                        <li><a href="javascript:;" onclick="document.getElementById('month_show').innerHTML=this.innerHTML;document.getElementById('month').value=this.innerHTML;">7月份</a></li>
+                                        <li><a href="javascript:;" onclick="document.getElementById('month_show').innerHTML=this.innerHTML;document.getElementById('month').value=this.innerHTML;">8月份</a></li>
+                                        <li><a href="javascript:;" onclick="document.getElementById('month_show').innerHTML=this.innerHTML;document.getElementById('month').value=this.innerHTML;">9月份</a></li>
+                                        <li><a href="javascript:;" onclick="document.getElementById('month_show').innerHTML=this.innerHTML;document.getElementById('month').value=this.innerHTML;">10月份</a></li>
+                                        <li><a href="javascript:;" onclick="document.getElementById('month_show').innerHTML=this.innerHTML;document.getElementById('month').value=this.innerHTML;">11月份</a></li>
+                                        <li><a href="javascript:;" onclick="document.getElementById('month_show').innerHTML=this.innerHTML;document.getElementById('month').value=this.innerHTML;">12月份</a></li>
+                                  </ul>
+                        </div>
+                       </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label>水费金额</label>
+                      <input type="number" min="0" max="10000" required step="0.01" class="form-control" name="water" value="" style="width:200px;">
+                  </div>
+                  <div class="form-group">
+                      <label>电费金额</label>
+                      <input type="number" min="0" max="10000" required step="0.01" class="form-control" name="electric" value="" style="width:200px;">
+                  </div>
+                  <div class="form-group">
+                      <input type="submit" style="background:orange;border:0" class="btn btn-primary" value="发布">
+                  </div>
+            </form>
+        </div>
+    </div>
+{% endblock main %}

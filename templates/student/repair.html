@@ -1,0 +1,111 @@
+{% extends "student/base.html" %}
+{% block title %}网上报修{% endblock title %}
+{% block main %}
+    <div style="margin-top:30px">
+<table class="table table-striped" style="table-layout:;margin:auto;margin-bottom:100px;">
+    <tr class="" style="background:orange;color:white;">
+        <th class="" colspan="8" >我的历史报修
+        {% if ischeckin == 0 %}
+        <th style="text-align:center;"><a href="/student/repair/add/0/" style="color:white;">开始报修</a></th>
+        {% else %}
+        <th style="text-align:center;"><a href="javascript:;" onclick="window.alert('您尚未入住，不可报修！')" style="color:white;">开始报修</a></th>
+        {% endif %}
+    </tr>
+    <tr class="" style="text-align:center">
+        <td class="active">寝室</td>
+        <td class="active">报修类型</td>
+        <td class="active">报修设备</td>
+        <td class="active">联系方式</td>
+        <td class="active">报修时间</td>
+        <td class="active" colspan="2">备注信息</td>
+        <td class="active">维修状态</td>
+        <td class="active">--</td>
+    </tr>
+
+
+{% for repair in repairs %}
+    <tr class="" style="text-align:center">
+        <td class="active">{{ repair.room.name }}</td>
+        <td class="active">{{ repair.type }}</td>
+        <td class="active">{{ repair.name }}</td>
+        <td class="active">{{ repair.contact }}</td>
+        <td class="active">{{ repair.date }}</td>
+        <td class="active" colspan="2">{{ repair.content }}</td>
+        {% if repair.status == "未处理" %}
+        <td class="active">{{ repair.status }}</td>
+        {% else %}
+        <td class="active">{{ repair.wait }}</td>
+        {% endif %}
+
+        {% if repair.wait == "已确认验收" %}
+        <td class="active"></td>
+        {% else %}
+        {% if repair.wait == "等待确认验收" and repair.reply == "" %}
+        <td class="active">
+            <a href="/student/repair/check_repair/{{ repair.id }}" onclick="alert('已确认验收')"><input type="submit" style="background:orange;border:0" class="btn btn-primary" value="验收"></a>
+            <input onclick = "openDialog({{ repair.id }})" type="submit" style="background:orange;border:0" class="btn btn-primary" value="反馈">
+        </td>
+        {% else %}
+        <td class="active">{{ repair.reply }}</td>
+        {% endif %}
+        {% endif %}
+    </tr>
+{% endfor %}
+        </table>
+    </div>
+<div>
+
+        <style>
+        .black_overlay{
+            display: none;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index:1001;
+            -moz-opacity: 0.8;
+            opacity:.80;
+            filter: alpha(opacity=88);
+        }
+        .white_content {
+            display: none;
+            position: absolute;
+            top: 25%;
+            left: 30%;
+            width: 35%;
+            height: 35%;
+            padding: 20px;
+            border: 0px solid orange;
+            background-color: #FFFAF0;
+            z-index:1002;
+            overflow: auto;
+        }
+    </style>
+
+        <!--<p>示例弹出层：<a href = "JavaScript:void(0)" onclick = "openDialog()">请点这里</a></p>-->
+        <div id="light" class="white_content">
+            <a style="float:right;margin-top:0px;color:orange" href = "javascript:void(0)" onclick = "closeDialog()">取消反馈</a>
+            <h1 style="color:orange;text-align:center">反馈原因</h1>
+            <form id="form_reply" action="" method="post">
+            <textarea rows="5" style="width:100%" required name="content" placeholder="反馈内容"></textarea>
+            <div style="text-align:center; margin-top:10px"><input onclick="alert('反馈成功')" type="submit" style="background:orange;border:0;width:100px;height:40px" class="btn btn-primary" value="立即反馈"></div>
+            </form>
+        </div>
+        </div>
+        <div id="fade" class="black_overlay"></div>
+    <script type="text/javascript">
+
+        function openDialog(id){
+            document.getElementById('light').style.display='block';
+            document.getElementById('fade').style.display='block';
+            document.getElementById('form_reply').action = "/student/repair_reply/" + id
+        }
+        function closeDialog(){
+            document.getElementById('light').style.display='none';
+            document.getElementById('fade').style.display='none';
+        }
+    </script>
+</div>
+{% endblock main %}

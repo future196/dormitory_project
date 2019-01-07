@@ -1,0 +1,41 @@
+{% extends "info_manager/base.html" %}
+{% block title %}宿舍楼信息管理 - 修改{% endblock title %}
+{% block main %}
+    <div class="panel panel-warning" style="background:	#F2F2F2;margin-top:30px;">
+        <div class="panel-heading">修改信息<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" style="color:orange" onclick="if(confirm('确定删除吗？')==true){window.location.href='/info/building/delete/{{ dormitory.name }}/';}">删除</a></label></div>
+        <div class="panel-body" style="margin-left:50px;color:orange">
+            <form action="/info/building/change/" method="post">
+                {% csrf_token %}
+                <input type="text" {% if status == 1 %} value="{{ dormitory.before_name }}" {% else %} value="{{ dormitory.name }}" {% endif %} name="before_name" style="display:none">
+                  <div class="form-group">
+                      <label style="">宿舍编号</label>{% if status == 1 %}<label style="color:red;font-weight:20">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编号与其他冲突，请更改！</label>{% endif %}
+                      <input type="text" class="form-control" name="name" value="{{ dormitory.name }}" style="width:400px;">
+                  </div>
+                  <div class="form-group">
+                        <label>层数</label>
+                        <input type="number" class="form-control" name="height" value="{{ dormitory.height }}" style="width:400px;">
+                  </div>
+                  <div class="form-group">
+                        <label>每层寝室数</label>
+                        <input type="number" class="form-control" name="width" value="{{ dormitory.width }}" style="width:400px;">
+                  </div>
+                  <div class="form-group">
+                        <label>单间床位数</label>
+                        <input type="number" class="form-control" name="room_capacity" value="{{ dormitory.room_capacity }}" style="width:400px;">
+                  </div>
+                  <div class="form-group">
+                        <label>已入住人数</label>
+                        <input type="number" class="form-control" name="used" value="{{ dormitory.used }}" style="width:400px;">
+                  </div>
+                  <div class="form-group">
+                        <label>可入住人数</label>
+                        <input type="number" class="form-control" name="capacity" value="{{ dormitory.capacity }}" style="width:400px;">
+                  </div>
+                  <div class="form-group">
+                        <input type="submit" style="background:orange;border:0" class="btn btn-primary" value="保存">
+                  </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock main %}

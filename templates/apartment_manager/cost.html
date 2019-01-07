@@ -1,0 +1,90 @@
+{% extends "apartment_manager/base.html" %}
+{% block title %}水电费管理{% endblock title %}
+{% block main %}
+    <div style="margin-top:30px">
+    <table class="table table-striped" style="table-layout:fixed;margin:auto;margin-bottom:100px;" >
+        <tr class="" style="background:orange;color:white;">
+            <th class="" colspan="6" >水电费&nbsp;
+                <div class="btn-group">
+              <button type="button" style="border:1px" class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {% if type == "0" %}所有信息{% elif type == "1" %}水费未缴{% elif type == "2" %}电费未缴{% elif type == "3" %}水费已缴{% else %}电费已缴{% endif %}<span class="caret"></span>
+              </button>
+
+              <ul class="dropdown-menu" style="background:#FFFFE0">
+                  <li><a href="/apartment/cost/0_{{ year }}_{{ month }}/">所有信息</a></li>
+                  <li><a href="/apartment/cost/1_{{ year }}_{{ month }}/">水费未缴</a></li>
+                  <li><a href="/apartment/cost/2_{{ year }}_{{ month }}/">电费未缴</a></li>
+                  <li><a href="/apartment/cost/3_{{ year }}_{{ month }}/">水费已缴</a></li>
+                  <li><a href="/apartment/cost/4_{{ year }}_{{ month }}/">电费已缴</a></li>
+              </ul>
+            </div>
+              <div class="btn-group">
+              <button type="button" style="border:1px" class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {% if year == "0" %}所有年份{% else %}{{ year }}年{% endif %}<span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" style="background:#FFFFE0">
+                  <li><a href="/apartment/cost/{{ type }}_0_{{ month }}/">所有年份</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_2018_{{ month }}/">2018年</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_2017_{{ month }}/">2017年</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_2016_{{ month }}/">2016年</a></li>
+
+
+              </ul>
+            </div>
+            <div class="btn-group">
+              <button type="button" style="border:1px" class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {% if month == "0" %}所有月份{% else %}{{ month }}月份{% endif %}<span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" style="background:#FFFFE0">
+                  <li><a href="/apartment/cost/{{ type }}_{{ year }}_0/">所有月份</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_{{ year }}_1/">1月份</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_{{ year }}_2/">2月份</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_{{ year }}_3/">3月份</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_{{ year }}_4/">4月份</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_{{ year }}_5/">5月份</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_{{ year }}_6/">6月份</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_{{ year }}_7/">7月份</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_{{ year }}_8/">8月份</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_{{ year }}_9/">9月份</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_{{ year }}_10/">10月份</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_{{ year }}_11/">11月份</a></li>
+                  <li><a href="/apartment/cost/{{ type }}_{{ year }}_12/">12月份</a></li>
+              </ul>
+            </div>
+        </th>
+
+        <th style="text-align:center;">
+            <a href="/apartment/cost/add/" style="color:white;">新增水电费</a>
+        </th>
+    </tr>
+    <tr class="" style="text-align:center">
+        <td class="active">寝室</td>
+        <td class="active">年月份</td>
+        <td class="active">水费金额</td>
+        <td class="active">电费金额</td>
+        <td class="active">水费缴纳状态</td>
+        <td class="active">电费缴纳状态</td>
+        <td class="active">--</td>
+    </tr>
+
+
+{% if costs.count == 0 %}
+<tr class="" style="text-align:center;background:white;">
+    <td colspan="7"><p style="font-size:1.5em;">空空如也</p></td>
+</tr>
+{% else %}
+{% for cost in costs %}
+    <tr class="" style="text-align:center">
+        <td class="active">{{ cost.room.name }}</td>
+        <td class="active">{{ cost.date }}</td>
+        <td class="active">{{ cost.water }}</td>
+        <td class="active">{{ cost.electric }}</td>
+        <td class="active">{{ cost.water_status }}</td>
+        <td class="active">{{ cost.electric_status }}</td>
+        <td class="active"><a href="/apartment/cost/modify/{{ cost.id }}/{{ type }}_{{ year }}_{{ month }}/" style="color:black">进入</a></td>
+    </tr>
+{% endfor %}
+{% endif %}
+        </table>
+    </div>
+{% endblock main %}

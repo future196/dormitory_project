@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}学生个人中心{% endblock title %}
+{% block body %}
+<ul class="nav nav-tabs" style="background:orange">
+  <li {% if home == 0 %} class="active" {% endif %} style="margin-left:100px;"><a href="/student/index/" {% if home == 0 %}  style="color:orange" {% else %} style="color:white;background:orange"  onmouseover="this.style.background='white';this.style.color='orange';" onmouseleave="this.style.background='orange';this.style.color='white';"{% endif %}>首页</a></li>
+  <li {% if repair == 0 %} class="active" {% endif %}><a href="/student/repair/" {% if repair == 0 %}  style="color:orange" {% else %} style="color:white;background:orange" onmouseover="this.style.background='white';this.style.color='orange';" onmouseleave="this.style.background='orange';this.style.color='white';"{% endif %}>网上报修</a></li>
+  <li {% if cost == 0 %} class="active" {% endif %}><a href="/student/cost/" {% if cost == 0 %}  style="color:orange" {% else %} style="color:white;background:orange" onmouseover="this.style.background='white';this.style.color='orange';" onmouseleave="this.style.background='orange';this.style.color='white';"{% endif %}>水电费查看</a></li>
+  <li {% if modify_password == 0 %} class="active" {% endif %}><a href="/student/modify_password/" {% if modify_password == 0 %}  style="color:orange" {% else %} style="color:white;background:orange" onmouseover="this.style.background='white';this.style.color='orange';" onmouseleave="this.style.background='orange';this.style.color='white';"{% endif %}>修改密码</a></li>
+
+  <div role="presentation" style="float:right;margin:10px 100px 10px 0"><a style="color:white" href="/user/logout/">注销</a></div>
+  <div role="presentation" style="float:right;margin:10px 20px 10px 0"><a style="color:white" href="javascript:;">欢迎您：{{ request.session.user_name}}</a></div>
+</ul>
+<div style="margin:auto;width:1000px;height:100%">
+  {% block main %}{% endblock main %}
+</div>
+
+{% endblock body %}
